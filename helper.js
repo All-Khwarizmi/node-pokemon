@@ -5,14 +5,14 @@ module.exports.succes = (res, message, data) => {
   });
 };
 
-module.exports.error = (res, message) => {
+module.exports.error = (res) => {
+  res.status(500).json({
+    message: "Internal Server Error",
+  });
+};
+
+module.exports.notFound = (res, message) => {
   res.status(404).json({
     message,
   });
 };
-
-module.exports.notFound = (res) => {
-    res.status(404).json({
-        message: "Not Found",
-    });
-    }

@@ -19,7 +19,7 @@ app.get("/pokemons/:id", (req, res) => {
   if (pokemon) {
     succes(res, "Voici le pokémon demandé", pokemon);
   } else {
-    error(res, `Le pokémon avec l'id ${id} n'existe pas`);
+    notFound(res, `Le pokémon avec l'id ${id} n'existe pas`);
   }
 });
 
