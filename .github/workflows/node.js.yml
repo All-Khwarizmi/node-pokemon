@@ -44,11 +44,11 @@ jobs:
 
       - name: Build docker image
         run: |
-          docker build . -t ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }}
+          docker build . -t ${{ secrets.DOCKER_USERNAME }}/node-course:latest
       
       - name: Tag docker image
         run: |
-          docker tag ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }} ${{ secrets.DOCKER_USERNAME }}/node-course:latest
+          docker tag ${{ secrets.DOCKER_USERNAME }}/node-course:latest ${{ secrets.DOCKER_USERNAME }}/node-course:latest
         
       - name: Push docker image
         run: |
