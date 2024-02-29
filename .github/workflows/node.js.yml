@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,5 +36,5 @@ jobs:
       - run: |
           echo ${{ github.run.id }}
           docker login  -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build . -t ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }}
+          docker build . -t $DOCKER_USERNAME/node-course:${{ github.run.id }}
+          docker push $DOCKER_USERNAME/node-course:${{ github.run.id }}
