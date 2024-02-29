@@ -52,4 +52,4 @@ jobs:
         
       - name: Push docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/node-course:lastest
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-course:latest
