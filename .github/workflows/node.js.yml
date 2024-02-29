@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     env:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_USERNAME: "suarecito"
     runs-on: ubuntu-latest
 
     strategy:
