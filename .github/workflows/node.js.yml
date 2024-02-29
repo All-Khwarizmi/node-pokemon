@@ -34,13 +34,22 @@ jobs:
 
       - name: test webhook
         run: |
-          curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": $DOCKER_USERNAME, "secret username": ${{ secrets.DOCKER_USERNAME }} }' $WEBHOOK_URL
+          curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": ${{ env.DOCKER_USERNAME }}, "secret username": ${{ secrets.DOCKER_USERNAME }}, "job id": ${{ github.run.id }} }' $WEBHOOK_URL
 
-      - name: Build the Docker image and push to Docker Hub
+      - name: Login to Docker Hub
         uses: actions/checkout@v4
       - run: |
           echo ${{ github.run.id }}
           docker login  -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build . -t $DOCKER_USERNAME/node-course:${{ github.run.id }}
-          docker tag $DOCKER_USERNAME/node-course:${{ github.run.id }} $DOCKER_USERNAME/node-course:latest
-          docker push $DOCKER_USERNAME/node-course:lastest
+
+      - name: Build docker image
+        run: |
+          docker build . -t ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }}
+      
+      - name: Tag docker image
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/node-course:${{ github.run.id }} ${{ secrets.DOCKER_USERNAME }}/node-course:latest
+        
+      - name: Push docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-course:lastest
