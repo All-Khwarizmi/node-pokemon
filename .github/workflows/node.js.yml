@@ -14,6 +14,8 @@ jobs:
     env:
       DOCKER_USERNAME: "suarecito"
       WEBHOOK_URL: "https://webhook.site/4204e8e3-eb61-4340-8782-8c08b2cfbe21"
+      RUN_ID: ${{ github.run_id }}
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,6 +36,7 @@ jobs:
 
       - name: test webhook
         run: |
+          echo "The run ID is $RUN_ID"
           curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": ${{ env.DOCKER_USERNAME }}, "secret username": ${{ secrets.DOCKER_USERNAME }}, "job id": ${{ github.run.id }} }' $WEBHOOK_URL
 
       - name: Login to Docker Hub
@@ -45,11 +48,11 @@ jobs:
       - name: Build docker image
         run: |
           docker build . -t ${{ secrets.DOCKER_USERNAME }}/node-course:latest
-      
+
       - name: Tag docker image
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/node-course:latest ${{ secrets.DOCKER_USERNAME }}/node-course:latest
-        
+
       - name: Push docker image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/node-course:latest
