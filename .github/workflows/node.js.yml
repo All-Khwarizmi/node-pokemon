@@ -37,12 +37,12 @@ jobs:
       - name: test webhook
         run: |
           echo "The run ID is $RUN_ID"
-          curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": ${{ env.DOCKER_USERNAME }}, "secret username": ${{ secrets.DOCKER_USERNAME }}, "job id": ${{ github.run.id }} }' $WEBHOOK_URL
+          curl -X POST -H "Content-Type: application/json" -d '{"text":"Hello, World!", "env username": ${{ env.DOCKER_USERNAME }}, "secret username": ${{ secrets.DOCKER_USERNAME }}, "job id": "$RUN_ID" }' $WEBHOOK_URL
 
       - name: Login to Docker Hub
         uses: actions/checkout@v4
       - run: |
-          echo ${{ github.run.id }}
+          echo $RUN_ID
           docker login  -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build docker image
