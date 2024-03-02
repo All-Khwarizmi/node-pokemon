@@ -1,4 +1,4 @@
-const { error, notFound, succes } = require("../helper");
+const { error, notFound, succes } = require("../src/helper");
 
 describe("Test helper.js", () => {
   test("should return a 200 status code", () => {
